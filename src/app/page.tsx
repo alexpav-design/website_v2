@@ -50,6 +50,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section id="chi-sono" className="px-6 sm:px-12 py-24 max-w-3xl mx-auto scroll-mt-16">
+        <h2 className="font-display text-3xl font-bold mb-6">Chi sono</h2>
+        <p className="text-basalt-soft">
+          {/* Sezione in preparazione — testo e foto in arrivo da Alessandro */}
+        </p>
+      </section>
     </main>
   );
 }
