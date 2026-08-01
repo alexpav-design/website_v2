@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import * as Icons from "lucide-react";
+import type { AmenityItem } from "@/data/chayofa";
 
-export default function AmenitiesModal({ all }: { all: string[] }) {
+export default function AmenitiesModal({ all }: { all: AmenityItem[] }) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -26,10 +28,16 @@ export default function AmenitiesModal({ all }: { all: string[] }) {
                 &times;
               </button>
             </div>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-basalt-soft">
-              {all.map((a) => (
-                <li key={a}>{a}</li>
-              ))}
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm text-basalt-soft">
+              {all.map((a) => {
+                const IconComp = (Icons as unknown as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[a.icon] ?? Icons.Check;
+                return (
+                  <li key={a.label} className="flex gap-2 items-center">
+                    <IconComp size={16} className="text-teal shrink-0" />
+                    {a.label}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

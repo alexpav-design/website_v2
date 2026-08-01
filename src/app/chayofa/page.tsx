@@ -1,9 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
+import * as Icons from "lucide-react";
 import Lightbox from "@/components/Lightbox";
 import AmenitiesModal from "@/components/AmenitiesModal";
 import RichiestaForm from "@/components/RichiestaForm";
-import { amenitiesCurated, amenitiesAll, direzioniDallAeroporto, recensioniEstratti } from "@/data/chayofa";
+import RecensioniModal from "@/components/RecensioniModal";
+import ContattoModal from "@/components/ContattoModal";
+import {
+  amenitiesCurated, amenitiesAll, zonaTesto,
+  contattiTesto, statisticheAirbnb,
+} from "@/data/chayofa";
+import recensioniComplete from "@/data/recensioni-complete.json";
 
 const foto = Array.from({ length: 13 }, (_, i) => `/images/chayofa/foto-${i + 1}.jpg`);
 
@@ -22,43 +29,31 @@ export default function ChayofaPage() {
     <main className="flex-1">
       {/* HERO */}
       <section className="relative h-[70vh] min-h-[460px] flex items-end">
-        <Image
-          src="/images/chayofa/foto-2.jpg"
-          alt="Vista del complesso residenziale di Chayofa"
-          fill
-          priority
-          className="object-cover -z-20"
-        />
+        <Image src="/images/chayofa/foto-2.jpg" alt="Vista del complesso residenziale di Chayofa" fill priority className="object-cover -z-20" />
         <div className="absolute inset-0 bg-gradient-to-t from-basalt/90 via-basalt/30 to-transparent -z-10" />
         <div className="relative z-10 px-6 sm:px-12 pb-10 max-w-3xl hero-reveal">
-          <p className="font-mono text-xs tracking-[0.25em] uppercase text-star mb-4">
-            Chayofa &middot; Tenerife sud
-          </p>
+          <p className="font-mono text-xs tracking-[0.25em] uppercase text-star mb-4">Chayofa &middot; Tenerife sud</p>
           <h1 className="font-display text-4xl sm:text-6xl font-bold text-wall leading-[1.05]">
             Una stanza tranquilla, a un passo dal sud turistico di Tenerife
           </h1>
           <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 font-mono text-sm text-wall/80">
-            <span>4,81/5</span>
-            <span>469 recensioni</span>
+            <span>{statisticheAirbnb.media}/5</span>
+            <span>{statisticheAirbnb.totale} recensioni</span>
             <span>11 anni da host</span>
           </div>
         </div>
       </section>
 
-      {/* TAB NAV */}
       <nav className="sticky top-0 z-30 bg-wall/95 backdrop-blur border-b border-basalt/10 overflow-x-auto">
         <div className="flex gap-6 px-6 sm:px-12 py-3 font-mono text-sm whitespace-nowrap max-w-5xl mx-auto">
           {tabs.map((t) => (
-            <a key={t.id} href={`#${t.id}`} className="hover:text-teal transition-colors">
-              {t.label}
-            </a>
+            <a key={t.id} href={`#${t.id}`} className="hover:text-teal transition-colors">{t.label}</a>
           ))}
         </div>
       </nav>
 
-      {/* FOTO */}
+      {/* FOTO — niente titolo, come richiesto */}
       <section id="foto" className="px-6 sm:px-12 py-16 max-w-5xl mx-auto scroll-mt-16">
-        <h2 className="font-display text-2xl font-bold mb-6">Foto</h2>
         <Lightbox photos={foto} />
       </section>
 
@@ -73,40 +68,44 @@ export default function ChayofaPage() {
           del quartiere, oppure raggiungere in pochi minuti tutta l&apos;offerta della zona
           turistica, a piedi, in auto, in bus (fermata a pochi minuti da casa) o in taxi.
         </p>
-        <p className="text-lg leading-relaxed text-basalt-soft mt-4">
-          Camera matrimoniale con letto king size (152&times;203), bagno privato in camera, TV,
-          mini-frigo, forno a microonde e bollitore.
-        </p>
+
         <div className="mt-8 p-6 bg-night text-star rounded-sm relative overflow-hidden">
           <div className="absolute inset-0 starfield" />
           <p className="relative font-mono text-xs uppercase tracking-widest text-teal-bright mb-3">
             Un rapporto privilegiato, se lo desideri
           </p>
-          <p className="relative leading-relaxed">
+          <p className="relative font-host-quote text-lg leading-relaxed">
             Sono Alessandro, vivo ad Arona e ospito da 11 anni. Se preferisci l&apos;autonomia,
             nessun problema. Ma se ti va, hai a disposizione anni di esperienza come guida
             turistica, guida trekking e guida per l&apos;osservazione delle stelle — posso aiutarti
             a costruire un soggiorno su misura.
           </p>
+          <Link href="/#chi-sono" className="relative inline-block mt-4 font-mono text-xs underline text-teal-bright hover:text-star">
+            Per saperne di più &rarr;
+          </Link>
         </div>
       </section>
 
-      {/* SERVIZI */}
+      {/* SERVIZI con icone */}
       <section id="servizi" className="px-6 sm:px-12 py-16 bg-wall-deep scroll-mt-16">
         <div className="max-w-3xl mx-auto">
           <h2 className="font-display text-2xl font-bold mb-6">Servizi</h2>
-          <ul className="grid sm:grid-cols-3 gap-x-6 gap-y-3">
-            {amenitiesCurated.map((a) => (
-              <li key={a} className="text-basalt-soft text-sm flex gap-2">
-                <span className="text-teal">&#10003;</span> {a}
-              </li>
-            ))}
+          <ul className="grid sm:grid-cols-3 gap-x-6 gap-y-5">
+            {amenitiesCurated.map((a) => {
+              const IconComp = (Icons as unknown as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[a.icon] ?? Icons.Check;
+              return (
+                <li key={a.label} className="text-basalt-soft text-sm flex gap-3 items-center">
+                  <IconComp size={20} className="text-teal shrink-0" />
+                  {a.label}
+                </li>
+              );
+            })}
           </ul>
           <AmenitiesModal all={amenitiesAll} />
         </div>
       </section>
 
-      {/* DISPONIBILITA */}
+      {/* DISPONIBILITA con calcolatore prezzi */}
       <section id="disponibilita" className="px-6 sm:px-12 py-16 max-w-3xl mx-auto scroll-mt-16">
         <h2 className="font-display text-2xl font-bold mb-2">Richiedi disponibilità</h2>
         <p className="text-basalt-soft mb-8">
@@ -116,10 +115,10 @@ export default function ChayofaPage() {
         <RichiestaForm />
       </section>
 
-      {/* ZONA */}
+      {/* ZONA — testo reale di Alessandro */}
       <section id="zona" className="px-6 sm:px-12 py-16 bg-wall-deep scroll-mt-16">
         <div className="max-w-3xl mx-auto">
-          <h2 className="font-display text-2xl font-bold mb-6">Zona e collegamenti</h2>
+          <h2 className="font-display text-2xl font-bold mb-6">I dintorni</h2>
           <div className="rounded-sm overflow-hidden mb-8 border border-basalt/10">
             <iframe
               title="Mappa della posizione approssimativa"
@@ -128,64 +127,57 @@ export default function ChayofaPage() {
               src="https://www.openstreetmap.org/export/embed.html?bbox=-16.712%2C28.065%2C-16.685%2C28.080&layer=mapnik&marker=28.0725%2C-16.6986"
             />
           </div>
-          <h3 className="font-display font-bold mb-2">Dall&apos;aeroporto Reina Sofía, in auto</h3>
-          <p className="text-basalt-soft mb-6 leading-relaxed">{direzioniDallAeroporto.auto}</p>
-          <h3 className="font-display font-bold mb-2">Dall&apos;aeroporto, in bus</h3>
-          <p className="text-basalt-soft leading-relaxed">{direzioniDallAeroporto.bus}</p>
-        </div>
-      </section>
-
-      {/* RECENSIONI */}
-      <section id="recensioni" className="px-6 sm:px-12 py-16 max-w-3xl mx-auto scroll-mt-16">
-        <h2 className="font-display text-2xl font-bold mb-6">Cosa dicono gli ospiti</h2>
-        <div className="grid sm:grid-cols-3 gap-8 mb-4 font-mono">
-          <div>
-            <p className="text-4xl font-bold text-teal">4,81</p>
-            <p className="text-sm text-basalt-soft mt-1">valutazione media</p>
-          </div>
-          <div>
-            <p className="text-4xl font-bold text-teal">469</p>
-            <p className="text-sm text-basalt-soft mt-1">recensioni ricevute</p>
-          </div>
-          <div>
-            <p className="text-4xl font-bold text-teal">4,90</p>
-            <p className="text-sm text-basalt-soft mt-1">comunicazione</p>
-          </div>
-        </div>
-        <p className="text-xs text-basalt-soft/70 mb-8 font-mono">
-          Estratti parafrasati e anonimizzati — l&apos;export Airbnb non include i nomi dei recensori.
-        </p>
-        <div className="space-y-4">
-          {recensioniEstratti.map((r, i) => (
-            <div key={i} className="border-l-2 border-teal/40 pl-4 py-1">
-              <p className="text-basalt-soft">{r.testo}</p>
-              <p className="font-mono text-xs text-teal mt-1">{r.lingua} &middot; {r.periodo}</p>
-            </div>
+          {zonaTesto.split("\n\n").map((p, i) => (
+            <p key={i} className="text-basalt-soft mb-4 leading-relaxed whitespace-pre-line">{p}</p>
           ))}
         </div>
       </section>
 
-      {/* CONTATTI */}
+      {/* RECENSIONI — statistiche esatte Airbnb + testo verbatim */}
+      <section id="recensioni" className="px-6 sm:px-12 py-16 max-w-3xl mx-auto scroll-mt-16">
+        <h2 className="font-display text-2xl font-bold mb-2">Cosa dicono gli ospiti</h2>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="font-display text-4xl font-bold text-teal">{statisticheAirbnb.media}</span>
+          <div>
+            <p className="font-mono text-sm">su 5 &middot; {statisticheAirbnb.totale} recensioni</p>
+            <p className="font-mono text-xs text-ochre">{statisticheAirbnb.badge}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-8 font-mono text-xs">
+          {statisticheAirbnb.categorie.map((c) => (
+            <div key={c.nome}>
+              <p className="text-xl font-bold text-teal">{c.voto}</p>
+              <p className="text-basalt-soft">{c.nome}</p>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-4">
+          {recensioniComplete.slice(0, 5).map((r, i) => (
+            <div key={i} className="border-l-2 border-teal/40 pl-4 py-1">
+              <p className="text-basalt-soft">{r.testo}</p>
+              <p className="font-mono text-xs text-teal mt-1">{r.lingua}</p>
+            </div>
+          ))}
+        </div>
+        <RecensioniModal tutte={recensioniComplete} />
+      </section>
+
+      {/* CONTATTI — tono di Alessandro */}
       <section id="contatti" className="px-6 sm:px-12 py-20 bg-basalt text-wall scroll-mt-16">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-display text-3xl font-bold mb-4">Prenota direttamente</h2>
-          <p className="text-wall/80 mb-8">
-            Nessuna commissione di intermediazione applicata al prezzo — il vantaggio economico
-            resta tuo.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a href="mailto:alextenbb@gmail.com" className="bg-teal hover:bg-teal-bright transition-colors px-8 py-3 rounded-sm font-display font-bold">
-              Scrivimi: alextenbb@gmail.com
-            </a>
-            <a href="#" className="border border-wall/30 hover:border-wall/60 transition-colors px-8 py-3 rounded-sm font-display">
-              Vedi il profilo Airbnb
-            </a>
+          <h2 className="font-display text-3xl font-bold mb-4">{contattiTesto.intro}</h2>
+          <div className="flex flex-wrap justify-center gap-4 mb-10">
+            <ContattoModal label="Scrivimi" />
           </div>
+          <p className="text-wall/80 mb-4 font-host-quote">{contattiTesto.chiusura}</p>
+          <a href={contattiTesto.airbnbUrl} target="_blank" className="inline-block border border-wall/30 hover:border-wall/60 transition-colors px-8 py-3 rounded-sm font-display">
+            Vedi il profilo Airbnb
+          </a>
         </div>
       </section>
 
       <footer className="px-6 sm:px-12 py-8 text-xs text-basalt-soft font-mono flex flex-wrap gap-x-6 gap-y-2 justify-between">
-        <span>N&deg; registrazione VV Canarie/nazionale: ESHFTU00003801600059935500100000000000A-38-4-00078303</span>
+        <span>N&deg; registrazione: ESHFTU00003801600059935500100000000000A-38-4-00078303</span>
         <Link href="/" className="underline">&larr; Torna alla home</Link>
       </footer>
     </main>

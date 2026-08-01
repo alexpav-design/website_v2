@@ -12,7 +12,7 @@
   --color-night-soft: #1D2140;
   --color-star: #F4ECD8;
 
-  --font-display: "Century Gothic", "Avenir Next", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Big Caslon", "Didot", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --font-body: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
 }
@@ -49,6 +49,12 @@ body {
 
 .font-mono {
   font-family: var(--font-mono);
+}
+
+.font-host-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
 }
 
 /* Signature: hand-scattered star field for the night section, pure CSS */
