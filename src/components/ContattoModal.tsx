@@ -8,17 +8,19 @@ export default function ContattoModal({ label }: { label: string }) {
   const [email, setEmail] = useState("");
   const [messaggio, setMessaggio] = useState("");
   const [stato, setStato] = useState<"idle" | "loading" | "ok" | "errore">("idle");
+  const [dettaglio, setDettaglio] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStato("loading");
-    const { ok } = await inviaWeb3Forms({
+    const { ok, dettaglio: d } = await inviaWeb3Forms({
       subject: "Nuovo messaggio dal sito — Chayofa B&B",
       from_name: nome,
       email,
       messaggio,
     });
     setStato(ok ? "ok" : "errore");
+    setDettaglio(d ?? "");
   }
 
   return (
@@ -45,7 +47,12 @@ export default function ContattoModal({ label }: { label: string }) {
                 <button disabled={stato === "loading"} className="bg-teal hover:bg-teal-bright transition-colors text-wall px-6 py-2 rounded-sm font-display font-bold disabled:opacity-60">
                   {stato === "loading" ? "Invio..." : "Invia"}
                 </button>
-                {stato === "errore" && <p className="text-ochre text-sm">Invio non riuscito, riprova.</p>}
+                {stato === "errore" && (
+                  <p className="text-ochre text-sm">
+                    Invio non riuscito, riprova.
+                    {dettaglio && <span className="block font-mono text-xs mt-1">({dettaglio})</span>}
+                  </p>
+                )}
               </form>
             )}
           </div>
