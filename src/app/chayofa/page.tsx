@@ -59,14 +59,19 @@ export default function ChayofaPage() {
 
       {/* DESCRIZIONE */}
       <section id="descrizione" className="px-6 sm:px-12 py-16 max-w-3xl mx-auto scroll-mt-16">
-        <h2 className="font-display text-2xl font-bold mb-6">La zona, spiegata bene</h2>
+        <h2 className="font-display text-2xl font-bold mb-6">La sistemazione</h2>
         <p className="text-lg leading-relaxed text-basalt-soft">
-          Un Bed &amp; Breakfast in un complesso ordinato, in un quartiere residenziale abitato
-          dalla popolazione locale — non la classica zona turistica affollata e rumorosa. Qui si
-          respira tranquillità: certo, c&apos;è un bar, un ristorante, un supermercato — ma non è
-          quello il punto di forza. Il punto di forza è che puoi scegliere: restare nella quiete
-          del quartiere, oppure raggiungere in pochi minuti tutta l&apos;offerta della zona
-          turistica, a piedi, in auto, in bus (fermata a pochi minuti da casa) o in taxi.
+          La sistemazione consiste in una camera con bagno privato en-suite, letto matrimoniale
+          e ampi armadi per sistemare tutto il necessario. In camera trovi anche bollitore,
+          microonde e mini-frigo, per gestire in autonomia colazioni e piccoli pasti.
+        </p>
+        <p className="text-lg leading-relaxed text-basalt-soft mt-4">
+          Il complesso offre una zona relax con giardini, un ampio solarium con ombrelloni e
+          lettini, e due piscine — una pensata anche per i più piccoli — oltre a docce e bagni
+          esterni a disposizione.
+        </p>
+        <p className="font-mono text-sm text-basalt-soft mt-4">
+          Check-in: 13:00–22:00 &middot; Check-out: entro le 11:00
         </p>
 
         <div className="mt-8 p-6 bg-night text-star rounded-sm relative overflow-hidden">
@@ -107,11 +112,7 @@ export default function ChayofaPage() {
 
       {/* DISPONIBILITA con calcolatore prezzi */}
       <section id="disponibilita" className="px-6 sm:px-12 py-16 max-w-3xl mx-auto scroll-mt-16">
-        <h2 className="font-display text-2xl font-bold mb-2">Richiedi disponibilità</h2>
-        <p className="text-basalt-soft mb-8">
-          Nessuna prenotazione istantanea: ogni richiesta viene confermata a mano da Alessandro,
-          di solito entro poche ore.
-        </p>
+        <h2 className="font-display text-2xl font-bold mb-8">Richiedi disponibilità</h2>
         <RichiestaForm />
       </section>
 

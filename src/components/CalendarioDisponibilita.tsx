@@ -139,8 +139,10 @@ export default function CalendarioDisponibilita({
         {renderMese(meseVisibile)}
         {renderMese(meseSuccessivo)}
       </div>
-      <p className="font-mono text-xs text-basalt-soft mt-4">
-        {!checkin ? "Seleziona la data di check-in" : !checkout ? "Ora seleziona la data di check-out" : `${checkin} → ${checkout}`}
+      <p className="font-mono text-xs text-basalt-soft mt-4 text-center">
+        {!checkin ? "Seleziona la data di check-in" : !checkout ? "Ora seleziona la data di check-out" : (
+          <span>Check-in: <strong className="text-teal">{checkin}</strong> &nbsp;&middot;&nbsp; Check-out: <strong className="text-teal">{checkout}</strong></span>
+        )}
       </p>
     </div>
   );

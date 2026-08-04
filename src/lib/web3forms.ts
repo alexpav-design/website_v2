@@ -8,7 +8,11 @@ export async function inviaWeb3Forms(data: Record<string, string>) {
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ access_key: accessKey, ...data }),
+      body: JSON.stringify({
+        access_key: accessKey,
+        botcheck: "", // honeypot raccomandato da Web3Forms: riduce i falsi positivi anti-spam
+        ...data,
+      }),
     });
     const json = await res.json();
     if (json.success !== true) {
