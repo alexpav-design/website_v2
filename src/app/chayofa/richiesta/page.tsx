@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { calcolaPrezzo } from "@/lib/prezzi";
 import { inviaWeb3Forms } from "@/lib/web3forms";
+import TimelineCancellazione from "@/components/TimelineCancellazione";
 
 function RiepilogoRichiesta() {
   const params = useSearchParams();
@@ -86,15 +87,8 @@ function RiepilogoRichiesta() {
 
       {/* CANCELLAZIONE */}
       <section className="mb-10">
-        <h2 className="font-display text-lg font-bold mb-2">Politica di cancellazione (moderata)</h2>
-        <ul className="text-basalt-soft text-sm leading-relaxed list-disc pl-5 space-y-2">
-          <li>Cancellando fino a 7 giorni prima del check-in: rimborso totale, tasse incluse.</li>
-          <li>
-            Cancellando dopo questo termine: rimborso proporzionale delle tasse; ad Alessandro
-            spetta l&apos;importo di tutte le notti già trascorse più una notte aggiuntiva, oltre
-            al 50% delle notti restanti non godute.
-          </li>
-        </ul>
+        <h2 className="font-display text-lg font-bold mb-4">Cancellazione</h2>
+        <TimelineCancellazione checkin={checkin} />
       </section>
 
       {/* FORM FINALE */}
